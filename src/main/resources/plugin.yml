@@ -1,0 +1,4 @@
+name: VHSEventos
+version: '1.0'
+main: brcomkassin.VHSPlugin
+api-version: '1.20'
