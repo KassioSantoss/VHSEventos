@@ -1,4 +1,4 @@
-package brcomkassin.mathevent;
+package brcomkassin.mathevent.operations;
 
 import brcomkassin.mathevent.cache.MathCollections;
 import brcomkassin.utils.Message;
@@ -25,6 +25,9 @@ public class MathAddition {
     }
 
     public static boolean resultOperation(Long number) {
+        if (numbers.isEmpty()) {
+            return false;
+        }
         return number.equals(numbers.get(0));
     }
 

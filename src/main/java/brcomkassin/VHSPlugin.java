@@ -1,17 +1,24 @@
 package brcomkassin;
 
+import brcomkassin.mathevent.commands.MathCommand;
+import brcomkassin.mathevent.events.MathChatListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class VHSPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-
+        getServer().getPluginManager().registerEvents(new MathChatListener(), this);
+        getCommand("matematica").setExecutor(new MathCommand());
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+
     }
+
+    public static VHSPlugin getInstance() {
+        return getPlugin(VHSPlugin.class);
+    }
+
 }
