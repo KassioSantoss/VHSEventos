@@ -1,6 +1,7 @@
 package brcomkassin.mathevent.events;
 
 import brcomkassin.mathevent.operations.MathOperations;
+import brcomkassin.mathevent.rewards.RewardManager;
 import brcomkassin.mathevent.task.MathTask;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +15,8 @@ public class MathChatListener implements Listener {
         String message = event.getMessage();
         Player player = event.getPlayer();
 
+        if (!MathOperations.isEventActive()) return;
+
         long number;
 
         try {
@@ -25,7 +28,7 @@ public class MathChatListener implements Listener {
         if (!MathOperations.resultOperation(number)) return;
 
         MathTask.getInstance().stopTaskForEvent(player.getName());
-        MathOperations.giveReward(player);
+        RewardManager.getInstance().giveReward(player);
         event.setCancelled(true);
     }
 

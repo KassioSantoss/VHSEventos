@@ -1,7 +1,6 @@
 package brcomkassin.mathevent.cache;
 
 import lombok.Getter;
-
 import java.util.*;
 
 public class MathManager {

@@ -1,6 +1,7 @@
 package brcomkassin.mathevent.commands;
 
 import brcomkassin.mathevent.operations.MathOperations;
+import brcomkassin.mathevent.rewards.RewardManager;
 import brcomkassin.mathevent.task.MathTask;
 import brcomkassin.utils.Message;
 import org.bukkit.command.Command;
@@ -10,10 +11,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MathCommand implements CommandExecutor, TabExecutor {
 
@@ -27,6 +25,15 @@ public class MathCommand implements CommandExecutor, TabExecutor {
         }
 
         switch (args[0].toLowerCase()) {
+            case "setrecompensa":
+                StringBuilder newCommand = new StringBuilder();
+                for (int i = 1; i < args.length; i++) {
+                    newCommand.append(args[i]).append(" ");
+                }
+                RewardManager.getInstance().addCommand(newCommand.toString().trim());
+                Message.Chat.send(player, "&aComando adicionado: &f" + newCommand);
+                break;
+
             case "iniciar":
             case "init":
                 if (MathOperations.isEventActive()) {
@@ -58,7 +65,7 @@ public class MathCommand implements CommandExecutor, TabExecutor {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 1) {
-            return List.of("iniciar", "init", "cancelar", "stop");
+            return List.of("iniciar", "init", "cancelar", "stop", "setrecompensa");
         }
         return List.of();
     }

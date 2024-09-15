@@ -1,7 +1,6 @@
 package brcomkassin.mathevent.task;
 
 import brcomkassin.VHSPlugin;
-import brcomkassin.mathevent.cache.MathManager;
 import brcomkassin.mathevent.operations.MathOperations;
 import brcomkassin.utils.Message;
 import lombok.AccessLevel;
@@ -12,7 +11,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MathTask extends BukkitRunnable {
-
     private int count = 0;
     private static MathTask instance;
 
@@ -21,6 +19,18 @@ public class MathTask extends BukkitRunnable {
             instance = new MathTask();
         }
         return instance;
+    }
+
+    @Override
+    public void run() {
+        if (!MathOperations.isEventActive() || count == 20) {
+            stopTask();
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                Message.Chat.send(player, "&4 Tempo para resposta esgotado! Ninguém ganhou premiação");
+            }
+            return;
+        }
+        count++;
     }
 
     public void start() {
@@ -40,18 +50,6 @@ public class MathTask extends BukkitRunnable {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Message.Chat.send(player, "&aO jogador " + winnerName + " acertou o cálculo e ganhou uma recompensa!");
         }
-    }
-
-    @Override
-    public void run() {
-        if (!MathOperations.isEventActive() || count == 20) {
-            stopTask();
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                Message.Chat.send(player, "&4 Tempo para resposta esgotado! Ninguém ganhou premiação");
-            }
-            return;
-        }
-        count++;
     }
 
     private static void eventFinalized() {
