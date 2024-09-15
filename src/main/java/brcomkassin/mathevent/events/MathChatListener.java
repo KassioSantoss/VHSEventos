@@ -1,6 +1,6 @@
 package brcomkassin.mathevent.events;
 
-import brcomkassin.mathevent.operations.MathAddition;
+import brcomkassin.mathevent.operations.MathOperations;
 import brcomkassin.mathevent.task.MathTask;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,10 +22,10 @@ public class MathChatListener implements Listener {
             return;
         }
 
-        if (!MathAddition.resultOperation(number)) return;
+        if (!MathOperations.resultOperation(number)) return;
 
         MathTask.getInstance().stopTaskForEvent(player.getName());
-        MathAddition.giveReward(player);
+        MathOperations.giveReward(player);
         event.setCancelled(true);
     }
 

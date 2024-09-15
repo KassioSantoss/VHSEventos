@@ -1,7 +1,8 @@
 package brcomkassin.mathevent.task;
 
 import brcomkassin.VHSPlugin;
-import brcomkassin.mathevent.cache.MathCollections;
+import brcomkassin.mathevent.cache.MathManager;
+import brcomkassin.mathevent.operations.MathOperations;
 import brcomkassin.utils.Message;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -29,13 +30,13 @@ public class MathTask extends BukkitRunnable {
     public void stopTask() {
         cancel();
         instance = null;
-        clearCollection();
+        eventFinalized();
     }
 
     public void stopTaskForEvent(String winnerName) {
         cancel();
         instance = null;
-        clearCollection();
+        eventFinalized();
         for (Player player : Bukkit.getOnlinePlayers()) {
             Message.Chat.send(player, "&aO jogador " + winnerName + " acertou o cálculo e ganhou uma recompensa!");
         }
@@ -43,20 +44,19 @@ public class MathTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (MathCollections.getNumberList().isEmpty() || count == 20) {
+        if (!MathOperations.isEventActive() || count == 20) {
             stopTask();
             for (Player player : Bukkit.getOnlinePlayers()) {
                 Message.Chat.send(player, "&4 Tempo para resposta esgotado! Ninguém ganhou premiação");
             }
             return;
         }
-        System.out.println(count);
         count++;
     }
 
-    private void clearCollection() {
-        MathCollections.getUuidList().clear();
-        MathCollections.getNumberList().clear();
+    private static void eventFinalized() {
+        MathOperations.getNUMBERS().clear();
+        MathOperations.setEventActive(false);
     }
 
 }
